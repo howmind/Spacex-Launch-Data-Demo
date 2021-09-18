@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:spacex_launch/model/launchX.dart';
 
 enum SortType { None, LaunchDate, MissionName }
+enum OrderType { Ascending, Descending }
 
 class LaunchXProvider extends ChangeNotifier {
   List<Launch> cacheDataList = [];
@@ -47,6 +48,7 @@ class LaunchXProvider extends ChangeNotifier {
       try {
         var data = jsonDecode(response.body);
         var l = Launch.fromJson(data);
+        l.jsonString = response.body;
         errorState = null;
         return l;
       } catch (e) {
@@ -66,6 +68,7 @@ class LaunchXProvider extends ChangeNotifier {
         var data = jsonDecode(response.body);
         errorState = null;
         var r = Rocket.fromJson(data);
+        r.jsonString = response.body;
         errorState = null;
         return r;
       } catch (e) {
@@ -113,17 +116,17 @@ class LaunchXProvider extends ChangeNotifier {
   }
 
   filterLaunchSuccess(bool needFilter) async {
-    print("--filterLaunchSuccess");
     if (needFilter) {
       launchDataList = launchDataList
           .where((element) => element.launch_success ?? false)
           .toList();
     } else {
       launchDataList = List<Launch>.from(cacheDataList);
-      sortLaunchData(sortByType, isForce: true);
     }
 
     notifyAllDataUpdate++;
     notifyListeners();
   }
+
+  filterByGroup() {}
 }

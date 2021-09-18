@@ -45,11 +45,38 @@ class _DetailInforState extends State<DetailInfor> {
               AsyncSnapshot<Tuple2<Launch?, Rocket?>?> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
-                return Text("meet error");
+                return Text("Meet Error!");
               } else {
                 var both = snapshot.data;
-                return Container(
-                  child: Text("${both?.item1}}\n\n${both?.item2}"),
+                return Scrollbar(
+                  isAlwaysShown: true,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text("Launch Details",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        Text("Flight Number: ${both?.item1?.flight_number}\n"
+                            "Misson Name: ${both?.item1?.mission_name}\n"
+                            "Launch Year: ${both?.item1?.launch_year}\n"),
+                        Text("More: ${both?.item1?.jsonString}}"),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text("Rocket Details",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        Text("Active: ${both?.item2?.active}\n"
+                            "Stages: ${both?.item2?.stages}\n"
+                            "Description: ${both?.item2?.description}\n"),
+                        Text("More: ${both?.item2?.jsonString}"),
+                      ],
+                    ),
+                  ),
                 );
               }
             } else {

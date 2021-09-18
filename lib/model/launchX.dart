@@ -8,7 +8,7 @@ class Launch {
   bool? launch_success;
 
   String? rocket_id;
-
+  String? jsonString;
   Launch(
       {this.flight_id,
       this.launch_year,
@@ -37,6 +37,7 @@ class Rocket {
   bool? active;
   int? stages;
   String? description;
+  String? jsonString;
 
   Rocket({this.id});
 
